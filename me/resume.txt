@@ -1,0 +1,50 @@
+Khushi Gandhi
++1 (413)-510-7054 | khushiigandhi2405@gmail.com | linkedin.com/in/khushi2405 | github.com/khushi2405 | Portfolio | Leetcode
+SUMMARY
+Software Engineer with 2+ years of experience in finance and trading firms developing scalable, high-performance
+systems using Java, Spring Boot, and SQL. Hands-on experience in CI/CD pipelines, automated deployments, and
+production support.
+EDUCATION
+University of Massachusetts, Amherst Massachusetts Expected Graduation: May 2026
+Masters of Science in Computer Science CGPA: 4/4
+• Relevant Coursework: Database Design, Data Science, Advanced Algorithms, Information Retrieval
+Manipal Institute of Technology, Karnataka, India June 2018 - June 2022
+Bachelor of Technology in Information Technology CGPA: 3.7/4.0
+• Relevant Coursework: Data Structure and Algorithms, Object Oriented Programming, Software Engineering
+TECHNICAL SKILLS
+Languages: Java, C++, Python, HTML, CSS, Javascript, SQL, GraphQL
+Frameworks: Spring Boot, React, Vue
+Tools and Concepts: Cloud Computing, Git, Systems Design, Microservices, Database Architecture, Distributed Systems
+EXPERIENCE
+Software Developer Intern | Interactive Brokers - Connecticut, US June 2025 – Present
+• Rebuilt CRM front-end navigation by designing a global breadcrumb system, removing 300+ lines of legacy code and making
+the application easier to maintain.
+• Built components for dashboard widgets, enabling users to customize their workspace and view real-time data through backend
+APIs and database queries.
+• Enhanced application responsiveness by resolving 7 user-reported issues using Vue and JavaScript.
+Software Developer | Deutsche Bank - Pune, India July 2022 – August 2024
+• Collaborated with cross-functional teams of 50+ members in an agile environment to deliver scalable fintech applications for
+onboarding of banking clients and raising alerts to detect anomalies in transaction workflows.
+• Improved data job uptime by 30% by engineering a fallback mechanism in Spark workflows for third-party service disruptions.
+• Reduced manual efforts by 40% by automating report generation with a cron job to fetch data for new regional clients.
+• Implemented 12+ end-to-end GraphQL and REST API queries to streamline UI-backend interactions across 5
+microservices, along with writing multiple SQL queries in JDBC for efficient data retrieval.
+• Identified and resolved 15+ critical issues through testing, debugging, and code reviews, while also ensuring successful
+deployments by validating Jenkins CI/CD pipeline runs.
+PROJECTS
+IMDB Query Engine | Java, SpringBoot, Maven W January 2025 - April 2025
+• Designed a relational query engine to reduce disk I/O overhead when retrieving pages from over 70 million records by
+incorporating a custom buffer manager to cache frequently accessed data using an LRU replacement policy.
+• Engineered a 100× query speedup through custom B+ Tree indexing mechanism supporting fast searches on both clustered
+and unclustered indexes.
+• Built a query executor from scratch to process records from 3 relational tables, designing scan, selection, projection,
+materialization, and Block Nested Loop (BNL) joins operators using a fixed execution plan.
+SilentSpeak : Muted Speech Detection Using Jaw Motion | C, Python W October 2024 - December 2024
+• Developed a phone control system to improve accessibility for users in noisy settings or with speech impairments.
+• Applied Random Forest ML classifiers to infer commands, achieving 88% accuracy during a live demonstration.
+• Awarded Best Project in the course that offers an inclusive solution where audio-based systems are impractical.
+CERTIFICATIONS
+AWS Certified Cloud Practitioner July 2025
+Codepath Intermediate Technical Interview Prep January 2025 - May 2025
+Codepath React Web Development Course January 2025 - May 2025
+Google Cloud Digital Leader July 2024
