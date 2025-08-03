@@ -1,0 +1,191 @@
+=== CONTACT DETAILS ===
+
+Name: Khushi Gandhi  
+Email: khushiigandhi2405@gmail.com  
+LinkedIn: https://www.linkedin.com/in/khushi2405/  
+GitHub: https://github.com/Khushi2405  
+Portfolio: https://khushi2405.github.io/my-portfolio/  
+Resume: https://khushi2405.github.io/my-portfolio/assets/Khushi_Gandhi_Resume.pdf  
+
+---
+
+=== ABOUT ME ===
+
+I’m a Master’s student in Computer Science at UMass Amherst, currently interning at Interactive Brokers (Summer 2025), where I’m working on improving their internal CRM portal.  
+With 2+ years of full-stack development experience, I love building scalable, reliable, and secure systems. I’m genuinely fascinated by how complex software and cloud infrastructure come together behind the scenes.  
+
+Tech Stack: Java • Vue.js • JavaScript • SQL • Spring Boot • Database Design • AWS Fundamentals  
+
+I believe in the power of curiosity and the phrase: “I don’t know how to do it… yet.” It reminds me that every challenge is an opportunity to learn and grow.  
+I’m looking for full-time backend or full-stack Software Engineering roles starting May 2026, where I can contribute meaningfully, keep growing, and work on projects that challenge me.  
+
+Outside of coding, I’m a certified yoga instructor trying to find the calm.  
+
+---
+
+=== EXPERIENCE ===
+
+Role: Software Developer Intern  
+Company: Interactive Brokers  
+Duration: Jun 2025 – Aug 2025  
+Location: Greenwich, Connecticut, United States  
+• Rebuilt CRM front-end navigation by designing a global breadcrumb system, removing 300+ lines of legacy code.  
+• Built components for dashboard widgets to enable real-time data display via APIs and DB queries.  
+• Resolved 7+ user-reported issues using Vue.js and JavaScript to improve UI responsiveness.  
+
+---
+
+Role: Software Developer  
+Company: Deutsche Bank  
+Duration: Jul 2022 – Aug 2024  
+Location: Pune, Maharashtra, India  
+• Collaborated with 50+ cross-functional members in agile teams to deliver scalable fintech onboarding and alerting systems.  
+• Improved data job uptime by 30% by implementing a fallback mechanism in Spark for service disruptions.  
+• Automated regional report generation via cron jobs, reducing manual effort by 40%.  
+• Implemented 12+ GraphQL and REST API queries across 5 microservices and wrote JDBC-based SQL queries.  
+• Resolved 15+ critical issues via debugging, code reviews, and CI/CD validations on Jenkins.  
+
+---
+
+Role: Frontend Developer Intern  
+Company: Acies  
+Duration: Jan 2022 – May 2022  
+Location: Mumbai, Maharashtra, India  
+• Automated workflows on a no-code platform to support enterprise solutions.  
+• Developed UI with HTML, CSS, JavaScript, jQuery, and Bootstrap for drag-and-drop functionality.  
+• Used Python and Django to enhance backend capabilities.  
+
+---
+
+=== EDUCATION ===
+
+University: University of Massachusetts Amherst  
+Degree: Master of Science in Computer Science  
+Duration: 2024 – 2026  
+CGPA: 4.0 / 4.0  
+Relevant Courses:  
+• COMPSCI 528: Mobile and Ubiquitous Computing  
+• COMPSCI 546: Information Retrieval  
+• COMPSCI 560: Computer and Network Security  
+• COMPSCI 611: Advanced Algorithms  
+• COMPSCI 645: Database Design and Implementation  
+
+---
+
+University: Manipal Institute of Technology  
+Degree: B.Tech in Information Technology  
+Duration: 2018 – 2022  
+CGPA: 8.94 / 10  
+Relevant Courses:  
+• Data Structures and Algorithms  
+• Object Oriented Programming  
+• Software Engineering  
+
+---
+
+=== LICENSES & CERTIFICATIONS ===
+
+Certificate: AI Agents & Workflows – The Practical Guide  
+Platform: Udemy  
+Issued: Jul 2025  
+
+Certificate: Vue – The Complete Guide (incl. Router & Composition API)  
+Platform: Udemy  
+Issued: Jun 2025  
+
+Certificate: Intermediate Technical Interview Prep  
+Platform: CodePath  
+Issued: May 2025  
+
+Certificate: Intermediate Web Development Course  
+Platform: CodePath  
+Issued: May 2025  
+
+Certification: AWS Certified Cloud Practitioner  
+Platform: Amazon Web Services (AWS)  
+Issued: Jul 2025 — Expires: Jul 2028  
+
+Certification: Cloud Digital Leader  
+Platform: Google  
+Issued: Jul 2024 — Expires: Jul 2027  
+
+---
+
+=== PROJECTS ===
+
+Project: IMDB Query Engine — Disk-Based Relational Database  
+Duration: Feb 2025 – May 2025  
+GitHub: https://github.com/Khushi2405/IMDB-Query-Engine  
+• Designed a query engine in Java to reduce disk I/O over 70M records via custom LRU buffer manager.  
+• Engineered 100× speedup with B+ Tree indexing on clustered/unclustered indexes.  
+• Implemented query execution operators: scan, selection, projection, materialization, and BNL joins.  
+
+---
+
+Project: Silent Speak — Muted Speech Detection via Jaw Motion  
+Duration: Sep 2024 – Dec 2024  
+GitHub: https://github.com/Khushi2405/SilentSpeak  
+• Built real-time jaw-motion-based speech recognition using IMU sensors.  
+• Achieved 88% classification accuracy with Random Forest Classifier.  
+• Integrated ADB-triggered phone actions; won “Best Project” award.  
+
+---
+
+Project: Hand Gesture Recognition  
+Duration: Oct 2024 – Nov 2024  
+GitHub: https://github.com/Khushi2405/SilentSpeak  
+• Developed system with ESP32S3 + MPU6050 to recognize directional hand gestures.  
+• Used SVM to classify features from accelerometer and gyroscope data.  
+• Enabled real-time gesture-based control for interactive systems.  
+
+---
+
+Project: Comparative Study of Sentiment Analysis  
+Duration: Apr 2021 – Jun 2021  
+• Analyzed sentiment using ML algorithms: SVM, Naive Bayes, Logistic Regression.  
+• Built model to classify customer reviews as positive/negative.  
+• Supported e-commerce insights and competitor analysis.  
+
+---
+
+=== RECOMMENDATIONS ===
+
+Recommender: Nikita Gupta  
+Recommendation:  
+• Khushi demonstrated maturity, accountability, and rapid understanding of complex tasks.  
+• Approached challenges with a solution-first mindset and strong team collaboration.  
+• Quote: “She is also a great team player—always open to feedback and eager to learn… I’d highly recommend her to any team looking for talent that delivers both quality and consistency.”  
+
+---
+
+Recommender: Nilkanth Kulkarni  
+Recommendation:  
+• Noted for strong backend development, API integration, and innovation in global hackathons.  
+• Showed initiative and a strong work ethic across all projects.  
+• Quote: “Khushi earns my highest recommendation. She will prove to be an asset wherever she goes.”  
+
+---
+
+Recommender: Sankalp Arora  
+Recommendation:  
+• Picked up new technologies like TypeScript and Java quickly.  
+• Valued for creativity, collaboration, and high-quality deliverables.  
+• Quote: “Her passion for delivering high-quality results earned her admiration from colleagues and leadership alike.”  
+
+---
+
+Recommender: Manan Mishra  
+Recommendation:  
+• Recognized for technical depth, quick learning, and a never-give-up attitude.  
+• Effective communicator and reliable team contributor.  
+• Quote: “She is excellent in technical skills and has shown a quick learning and thinking also has never give up attitude.”  
+
+---
+
+=== TECHNICAL SKILLS ===
+
+Languages: Java, C++, Python, HTML, CSS, JavaScript, SQL, GraphQL  
+Frameworks & Tools: Spring Boot, React, Vue.js  
+Concepts: Cloud Computing, Microservices, Git, System Design, Distributed Systems, Database Architecture  
+
+---

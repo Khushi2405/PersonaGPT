@@ -1,6 +1,0 @@
-I’m a Master’s student in Computer Science at UMass Amherst, currently interning at Interactive Brokers (Summer 2025), where I’m working on improving their internal CRM portal.
-With 2+ years of full-stack development experience, I love building scalable, reliable, and secure systems. I’m genuinely fascinated by how complex software and cloud infrastructure come together behind the scenes.
-Tech Stack (current but always evolving): Java • Vue.js • JavaScript • SQL • Spring Boot • Database Design • AWS fundamentals
-I believe in the power of curiosity and the phrase: “I don’t know how to do it… yet.” It reminds me that every challenge is an opportunity to learn and grow.
-I’m looking for full-time backend or full-stack Software Engineering roles starting May 2026, where I can contribute meaningfully, keep growing, and work on projects that challenge me.
-Outside of coding, I’m a certified yoga instructor trying to find the calm.

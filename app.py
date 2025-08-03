@@ -1,9 +1,10 @@
 import os
 import json
 import pickle
-import numpy as np
 from dotenv import load_dotenv
 from sentence_transformers import SentenceTransformer
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
 from openai import OpenAI
 import gradio as gr
 import requests
@@ -68,20 +69,70 @@ class Me:
         self.name = "Khushi Gandhi"
 
         # Load embeddings
-        with open("embeddings.pkl", "rb") as f:
+        with open("embeddings_by_section.pkl", "rb") as f:
             self.embeddings = pickle.load(f)
 
         # Load local embedder
         self.embedder = SentenceTransformer("all-MiniLM-L6-v2")
 
+        # Get all unique sections in embeddings
+        self.sections = list(set(item["section"] for item in self.embeddings))
+        print(f"Available sections: {self.sections}", flush=True)
+
+        self.section_aliases = {
+            "Experience": ["experience", "work", "job", "internship", "role", "position", "employment", "career"],
+            "Projects": ["projects", "work", "built", "created", "developed"],
+            "Education": ["education", "university", "degree", "courses", "academics"],
+            "Skills": ["skills", "tech stack", "technologies", "tools"],
+            "Certifications": ["certifications", "licenses"],
+            "Recommendations": ["recommendations", "testimonials", "feedback"],
+            "Contact": ["phone", "contact", "email", "linkedin", "github", "portfolio"]
+        }
+
+        # Prepare section embeddings by combining section names with aliases
+        self.section_embeddings = {}
+        for section in self.sections:
+            aliases = self.section_aliases.get(section, [])
+            combined_text = section + " " + " ".join(aliases)
+            self.section_embeddings[section] = self.embedder.encode(combined_text).reshape(1, -1)
+
+    def get_intent_section(self, query):
+        # query_emb = self.embedder.encode(query).reshape(1, -1)
+        # max_sim = -1
+        # best_section = None
+        # for section, emb in self.section_embeddings.items():
+        #     sim = cosine_similarity(query_emb, emb)[0][0]
+        #     if sim > max_sim:
+        #         max_sim = sim
+        #         best_section = section
+        # return best_section
+        system = "Classify the user's intent into one of:\n" + "\n".join(self.sections) + "\n\n" + \
+                  "Respond with the section name that best matches the user's intent, in lowercase."
+        response = self.openai.chat.completions.create(
+            model="gemini-2.0-flash",
+            messages=[
+                {"role": "system", "content": system},
+                {"role": "user", "content": query}
+            ]
+        )
+        return response.choices[0].message.content.strip().lower()
+    
     def retrieve_relevant_chunks(self, query, top_k=5):
-        query_embedding = self.embedder.encode(query)
-        scores = []
-        for item in self.embeddings:
-            score = np.dot(query_embedding, item["embedding"])
-            scores.append((score, item["chunk"]))
-        scores.sort(reverse=True)
-        return [chunk for _, chunk in scores[:top_k]]
+        intent_section = self.get_intent_section(query)
+        print(f"Detected intent section: {intent_section}", flush=True)
+
+        # Filter chunks by section detected from intent
+        filtered = [item for item in self.embeddings if item["section"] == intent_section]
+
+        # If no filtered chunks found (fallback), use all
+        if not filtered:
+            filtered = self.embeddings
+
+        query_embedding = self.embedder.encode(query).reshape(1, -1)
+        corpus_embeddings = np.array([item["embedding"] for item in filtered])
+        similarities = cosine_similarity(query_embedding, corpus_embeddings)[0]
+        top_indices = similarities.argsort()[::-1][:top_k]
+        return [filtered[i]["chunk"] for i in top_indices]
 
     def handle_tool_call(self, tool_calls):
         results = []
@@ -96,29 +147,19 @@ class Me:
 
     def system_prompt(self, retrieved_chunks):
         context = "\n\n".join(retrieved_chunks)
-        contact_info = (
-        "Name: Khushi Gandhi\n"
-        "Email: khushiigandhi2405@gmail.com.com\n"
-        "LinkedIn: https://www.linkedin.com/in/khushi2405/\n"
-        "GitHub: https://github.com/Khushi2405\n"
-        "Portfolio: https://khushi2405.github.io/my-portfolio/\n"
-        "Resume: https://khushi2405.github.io/my-portfolio/assets/Khushi_Gandhi_Resume.pdf\n"
-    )
+        
         return f"""You are {self.name}, an expert professional representing yourself on your personal website.
         You answer visitors' questions about your career, skills, background, and personality.
 
         Guidelines for your responses:
-        - Be approachable, knowledgeable, and professional.
-        - Keep your answers formal, concise, and directly relevant to the question.
+        - Be friendly, thoughtful, and authentic in tone.
+        - Let your natural excitement for learning and solving problems shine through.
+        - Show curiosity when relevant, and speak as someone who genuinely enjoys building and growing.
+        - Keep responses clear, concise, and warm—use a conversational tone, but stay professional.
         - Use the information provided in the <context> to inform your answers, but **do not** copy the text verbatim.
         - If the answer is not clear from the context, respond honestly with "I don't know" or "I'm not sure."
         - If the visitor shows interest in staying in touch, ask politely for their name and email address.
         - Whenever a visitor provides their email, use the `record_user_details` tool to save their information.
-        -- If the user asks for any contact information about you (your name, email, LinkedIn, GitHub, resume, etc.), reply with the following exact contact details:
-
-        <contact_info>
-        {contact_info}
-        </contact_info>
         - Never fabricate information or guess beyond the provided context.
 
         Here is the context you can use to answer:
@@ -128,11 +169,12 @@ class Me:
         </context>
 
         Answer as if you are {self.name}, speaking directly and respectfully to a visitor.
-        """
+        Format your response with \n\n as the paragraph separator.       """
 
     def chat(self, message, history):
         global tools
         relevant_chunks = self.retrieve_relevant_chunks(message)
+        print("\nRelevant chunks retrieved:", relevant_chunks, flush=True)
         messages = [{"role": "system", "content": self.system_prompt(relevant_chunks)}] + history + [{"role": "user", "content": message}]
         done = False
         while not done:
@@ -179,6 +221,6 @@ if __name__ == "__main__":
             ["What motivates you in your career?"],
             ["Talk about a challenging situation you faced recently?"]
         ],
-        theme="grass"
+        theme="soft"
     ).launch()
     
