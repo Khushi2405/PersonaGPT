@@ -174,7 +174,6 @@ class Me:
     def chat(self, message, history):
         global tools
         relevant_chunks = self.retrieve_relevant_chunks(message)
-        print("\nRelevant chunks retrieved:", relevant_chunks, flush=True)
         messages = [{"role": "system", "content": self.system_prompt(relevant_chunks)}] + history + [{"role": "user", "content": message}]
         done = False
         while not done:
