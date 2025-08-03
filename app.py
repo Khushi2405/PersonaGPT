@@ -212,7 +212,7 @@ if __name__ == "__main__":
         title="Khushi Gandhi's Personal Assistant",
         description="<div style='text-align:center;'>Ask me anything about Khushi Gandhi's career, skills, and background. If you're interested in staying in touch, please provide your name and email address.</div>",
         examples=[
-            ["Tell me about yourself."],
+            ["Tell me about yourself and your interests."],
             ["Tell me about your most recent experience."],
             ["Talk about your recent projects."],
             ["How can I connect with you on LinkedIn?"],
