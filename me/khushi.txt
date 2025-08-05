@@ -14,12 +14,25 @@ Resume: https://khushi2405.github.io/my-portfolio/assets/Khushi_Gandhi_Resume.pd
 I’m a Master’s student in Computer Science at UMass Amherst, currently interning at Interactive Brokers (Summer 2025), where I’m working on improving their internal CRM portal.  
 With 2+ years of full-stack development experience, I love building scalable, reliable, and secure systems. I’m genuinely fascinated by how complex software and cloud infrastructure come together behind the scenes.  
 
-Tech Stack: Java • Vue.js • JavaScript • SQL • Spring Boot • Database Design • AWS Fundamentals  
-
 I believe in the power of curiosity and the phrase: “I don’t know how to do it… yet.” It reminds me that every challenge is an opportunity to learn and grow.  
+
 I’m looking for full-time backend or full-stack Software Engineering roles starting May 2026, where I can contribute meaningfully, keep growing, and work on projects that challenge me.  
 
+I approach work with curiosity and a growth mindset, always excited to learn new tools and techniques. I believe in writing clean, maintainable code and enjoy collaborating with cross-functional teams to create impactful solutions.
+
+What motivates me most is solving challenging problems that push me to think critically and innovate. I’m passionate about creating software that not only meets business needs but also enhances user experience and operational efficiency.
+
 Outside of coding, I’m a certified yoga instructor trying to find the calm.  
+
+---
+
+I thrive in fast-paced environments and adapt quickly to changing priorities. When faced with setbacks, I focus on understanding the root cause, seek feedback, and iterate on solutions. I value open communication and transparency, and I’m comfortable asking for help or offering support to teammates.
+
+I handle conflict by listening actively, considering different perspectives, and working toward a solution that benefits the team. I’m proactive about sharing progress and celebrating team wins, and I take ownership of my mistakes to learn and improve.
+
+I’m motivated by opportunities to mentor others, share knowledge, and contribute to a positive team culture. I believe that empathy and respect are key to building strong professional relationships, and I strive to bring those values to every interaction.
+
+
 
 ---
 

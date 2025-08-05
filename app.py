@@ -76,37 +76,14 @@ class Me:
         self.embedder = SentenceTransformer("all-MiniLM-L6-v2")
 
         # Get all unique sections in embeddings
-        self.sections = list(set(item["section"] for item in self.embeddings))
+        self.sections = [item["section"] for item in self.embeddings]
+        self.behavioral_sections = ["Experience", "Projects", "Recommendations", "About Me"]
+
         print(f"Available sections: {self.sections}", flush=True)
 
-        self.section_aliases = {
-            "Experience": ["experience", "work", "job", "internship", "role", "position", "employment", "career"],
-            "Projects": ["projects", "work", "built", "created", "developed"],
-            "Education": ["education", "university", "degree", "courses", "academics"],
-            "Skills": ["skills", "tech stack", "technologies", "tools"],
-            "Certifications": ["certifications", "licenses"],
-            "Recommendations": ["recommendations", "testimonials", "feedback"],
-            "Contact": ["phone", "contact", "email", "linkedin", "github", "portfolio"]
-        }
-
-        # Prepare section embeddings by combining section names with aliases
-        self.section_embeddings = {}
-        for section in self.sections:
-            aliases = self.section_aliases.get(section, [])
-            combined_text = section + " " + " ".join(aliases)
-            self.section_embeddings[section] = self.embedder.encode(combined_text).reshape(1, -1)
 
     def get_intent_section(self, query):
-        # query_emb = self.embedder.encode(query).reshape(1, -1)
-        # max_sim = -1
-        # best_section = None
-        # for section, emb in self.section_embeddings.items():
-        #     sim = cosine_similarity(query_emb, emb)[0][0]
-        #     if sim > max_sim:
-        #         max_sim = sim
-        #         best_section = section
-        # return best_section
-        system = "Classify the user's intent into one of:\n" + "\n".join(self.sections) + "\n\n" + \
+        system = "Classify the user's intent into one of:\n" + "\n".join(self.sections) + "\n" + "behavioral" + "\n\n" + \
                   "Respond with the section name that best matches the user's intent, in lowercase."
         response = self.openai.chat.completions.create(
             model="gemini-2.0-flash",
@@ -121,9 +98,13 @@ class Me:
         intent_section = self.get_intent_section(query)
         print(f"Detected intent section: {intent_section}", flush=True)
 
-        # Filter chunks by section detected from intent
-        filtered = [item for item in self.embeddings if item["section"] == intent_section]
+        if intent_section == "behavioral":
+        # For behavioral questions, retrieve from multiple sections
+            filtered = [item for item in self.embeddings if item["section"] in self.behavioral_sections]
+        else:
+            filtered = [item for item in self.embeddings if item["section"] == intent_section]
 
+   
         # If no filtered chunks found (fallback), use all
         if not filtered:
             filtered = self.embeddings
@@ -149,8 +130,11 @@ class Me:
         context = "\n\n".join(retrieved_chunks)
         
         return f"""You are {self.name}, an expert professional representing yourself on your personal website.
-        You answer visitors' questions about your career, skills, background, and personality.
-
+        You answer visitors' questions about your career, skills, background, and personality. 
+        When answering behavioral questions (e.g., about teamwork, challenges, leadership, motivation), do NOT use scripted stories. Instead, synthesize examples from your experience, projects, recommendations, and about me sections in the context.
+        Answer in a natural, storytelling style that highlights the (STAR format) Situation, Task, Action, and Result.
+        If you don't find any relevant situation to answer a behavioral question start with "I haven’t encountered that exact situation yet, but here’s how I would approach it" and the continue with the approachh which is relevant to me.
+        
         Guidelines for your responses:
         - Be friendly, thoughtful, and authentic in tone.
         - Let your natural excitement for learning and solving problems shine through.
@@ -195,7 +179,7 @@ class Me:
 
             except Exception as e:
                 if "429" in str(e):
-                    return "⚠️ Free tier usage limit reached. Please come back tomorrow."
+                    return "⚠️ Rate limit exceeded. Please try again later."
                 else:
                     return f"❌ An unexpected error occurred: {str(e)}"
         return response.choices[0].message.content
