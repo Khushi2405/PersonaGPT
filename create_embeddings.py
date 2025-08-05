@@ -17,7 +17,7 @@ def split_by_sections(text):
     return sections
 
 def main():
-    with open("me/khushi.txt", "r", encoding="utf-8") as f:
+    with open("me/details.txt", "r", encoding="utf-8") as f:
         full_text = f.read()
 
     sections = split_by_sections(full_text)
