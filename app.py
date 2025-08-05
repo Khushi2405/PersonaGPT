@@ -40,9 +40,9 @@ def send_email_notification(name, email):
         return
     sg = sendgrid.SendGridAPIClient(api_key=sendgrid_api_key)
     from_email = Email("khushiigandhi2405@gmail.com", "Khushi Gandhi")
-    to_email = To(email, name if name=="Name not provided" else None)
+    to_email = To(email, name)
     subject = "Thank you for your interest!"
-    greeting = f"Hi {name}," if name and name != "Name not provided" else "Hi,"
+    greeting = f"Hi {name},"
     body = (
         "\n\nThank you for reaching out and expressing interest in connecting with me!\n\n"
         "I hope the PersonaGPT gave you a clear and helpful introduction to my background, skills, and the kind of work I’m passionate about.\n\n"
@@ -66,7 +66,9 @@ def push(name, email, notes):
         send_email_notification(name, email)
 
 
-def record_user_details(email, name="Name not provided", notes="not provided"):
+def record_user_details(email, name, notes="not provided"):
+    if name is None or name.strip() == "":
+        name = email.split('@')[0]
     push(name, email, notes)
     return {"recorded": "ok"}
 
