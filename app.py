@@ -7,69 +7,68 @@ from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 from openai import OpenAI
 import gradio as gr
-import requests
-import sendgrid
-from sendgrid.helpers.mail import Mail, Email, To, Content
 import certifi
+import smtplib
+from email.message import EmailMessage
+from supabase import create_client
 
 load_dotenv(override=True)
 os.environ['SSL_CERT_FILE'] = certifi.where()
 
-def send_slack_notification(name, email, notes):
-    slack_webhook_url = os.getenv("SLACK_WEBHOOK_URL")
-    if not slack_webhook_url:
-        print("SLACK_WEBHOOK_URL not set", flush=True)
-        return
-    payload = {
-        "text": f"New user interest recorded:\nName: {name}\nEmail: {email}\nNotes: {notes}",
-    }
+def log_email_db(name : str, email : str):
     try:
-        response = requests.post(slack_webhook_url, json=payload)
-        if response.status_code == 200:
-            print("Slack notification sent", flush=True)
-        else:
-            print(f"Slack notification failed: {response.text}", flush=True)
+        SUPABASE_URL = os.getenv("SUPABASE_URL")
+        SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+        supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+        data = {
+            "name": name,
+            "email": email
+        }
+    
+        response = supabase.table("emails_sent").insert(data).execute()
+        print(f"Supabase insert successful: {response} ", flush=True)
     except Exception as e:
-        print(f"Error sending Slack notification: {e}", flush=True)
+        print(f"Error inserting into Supabase: {e}", flush=True)
+
 
 def send_email_notification(name, email):
-    
-    sendgrid_api_key = os.getenv("SENDGRID_API_KEY")
-    if not sendgrid_api_key:
-        print("SENDGRID_API_KEY not set", flush=True)
-        return
-    sg = sendgrid.SendGridAPIClient(api_key=sendgrid_api_key)
-    from_email = Email("khushiigandhi2405@gmail.com", "Khushi Gandhi")
-    to_email = To(email, name)
-    subject = "Thank you for your interest!"
-    greeting = f"Hi {name},"
-    body = (
-        "\n\nThank you for reaching out and expressing interest in connecting with me!\n\n"
-        "I hope the PersonaGPT gave you a clear and helpful introduction to my background, skills, and the kind of work I’m passionate about.\n\n"
-        "If you have any follow-up questions, want to explore opportunities to collaborate, or simply want to continue the conversation, feel free to reply to this email.\n\n"
-        "I’d love to hear from you!\n\n\nBest regards,\n\nKhushi Gandhi"
-    )
-    content = Content("text/plain", f"{greeting}{body}")
-    mail = Mail(from_email, to_email, subject, content)
-    try:    
-        response = sg.client.mail.send.post(request_body=mail.get())
-        if response.status_code == 202:
-            print("Email sent successfully", flush=True)
-        else:
-            print(f"Email sending failed: {response.body}", flush=True)
+    try:
+        gmail_user = os.getenv("GMAIL_USER")
+        gmail_password = os.getenv("GMAIL_APP_PASSWORD")
+        
+        if not gmail_user or not gmail_password:
+            print("GMAIL credentials not set in .env", flush=True)
+            return
+        
+        msg = EmailMessage()
+        msg["Subject"] = "Thank you for your interest!"
+        msg["From"] = f"Khushi Gandhi <{gmail_user}>"
+        msg["To"] = f"{name} <{email}>"
+
+        content = (f"Hi {name},"
+            "\n\nThank you for reaching out and expressing interest in connecting with me!\n\n"
+            "I hope the PersonaGPT gave you a clear and helpful introduction to my background, skills, and the kind of work I’m passionate about.\n\n"
+            "If you have any follow-up questions, want to explore opportunities to collaborate, or simply want to continue the conversation, feel free to reply to this email.\n\n"
+            "I’d love to hear from you!\n\n\nBest regards,\n\nKhushi Gandhi"
+        )
+        msg.set_content(content)
+
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+            smtp.login(gmail_user, gmail_password)
+            smtp.send_message(msg)
+
+        print("Email sent successfully", flush=True)
+
     except Exception as e:
         print(f"Error sending email: {e}", flush=True)
 
-def push(name, email, notes):
-    send_slack_notification(name, email, notes)
-    if email:
-        send_email_notification(name, email)
 
-
-def record_user_details(email, name, notes="not provided"):
+def record_user_details(email, name):
+    print(f"Recording user details: {name}, {email}", flush=True)
     if name is None or name.strip() == "":
         name = email.split('@')[0]
-    push(name, email, notes)
+    send_email_notification(name, email)
+    log_email_db(name, email)
     return {"recorded": "ok"}
 
 record_user_details_json = {
@@ -85,11 +84,6 @@ record_user_details_json = {
             "name": {
                 "type": "string",
                 "description": "The user's name, if they provided it"
-            }
-            ,
-            "notes": {
-                "type": "string",
-                "description": "Any additional information about the conversation that's worth recording to give context"
             }
         },
         "required": ["email"],
@@ -132,12 +126,26 @@ class Me:
                     {"role": "user", "content": query}
                 ]
             )
+            intent_section = response.choices[0].message.content.strip().lower()
+            if intent_section not in [s.lower() for s in self.sections] + ["behavioral"]:
+                raise ValueError("Invalid intent from LLM")
         except Exception as e:
-            if "429" in str(e):
-                return "⚠️ Rate limit exceeded. Please try again later."
-            else:
-                return f"❌ An unexpected error occurred: {str(e)}"
-        return response.choices[0].message.content.strip().lower()
+            print(f"LLM intent classification failed: {e}, falling back to embedding similarity", flush=True)
+
+            # Fallback: embedding similarity to find intent section
+            query_embedding = self.embedder.encode(query).reshape(1, -1)
+            section_embeddings = []
+            section_names = []
+            for item in self.embeddings:
+                # One embedding per section, so avoid duplicates
+                if item["section"] not in section_names:
+                    section_names.append(item["section"])
+                    section_embeddings.append(np.array(item["embedding"]))
+            corpus_embeddings = np.vstack(section_embeddings)
+            similarities = cosine_similarity(query_embedding, corpus_embeddings)[0]
+            max_idx = similarities.argmax()
+            intent_section = section_names[max_idx].lower()
+        return intent_section
     
     def retrieve_relevant_chunks(self, query, top_k=5):
         intent_section = self.get_intent_section(query)
@@ -226,10 +234,7 @@ class Me:
                     done = True
 
             except Exception as e:
-                if "429" in str(e):
-                    return "⚠️ Rate limit exceeded. Please try again later."
-                else:
-                    return f"❌ An unexpected error occurred: {str(e)}"
+                return f"❌ An unexpected error occurred: {str(e)}"
         return response.choices[0].message.content
     
 

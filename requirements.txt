@@ -3,6 +3,5 @@ numpy
 dotenv
 sentence_transformers
 gradio
-requests
-sendgrid
 certifi
+supabase
