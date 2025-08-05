@@ -54,7 +54,7 @@ def send_email_notification(name, email):
         msg.set_content(content)
         context = ssl.create_default_context()
         context.minimum_version = ssl.TLSVersion.TLSv1_2
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as smtp:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 2525, context=context) as smtp:
             smtp.login(gmail_user, gmail_password)
             smtp.send_message(msg)
 
