@@ -8,10 +8,14 @@ import numpy as np
 from openai import OpenAI
 import gradio as gr
 import requests
+import sendgrid
+from sendgrid.helpers.mail import Mail, Email, To, Content
+import certifi
 
 load_dotenv(override=True)
+os.environ['SSL_CERT_FILE'] = certifi.where()
 
-def push(name, email, notes):
+def send_slack_notification(name, email, notes):
     slack_webhook_url = os.getenv("SLACK_WEBHOOK_URL")
     if not slack_webhook_url:
         print("SLACK_WEBHOOK_URL not set", flush=True)
@@ -27,6 +31,39 @@ def push(name, email, notes):
             print(f"Slack notification failed: {response.text}", flush=True)
     except Exception as e:
         print(f"Error sending Slack notification: {e}", flush=True)
+
+def send_email_notification(name, email):
+    
+    sendgrid_api_key = os.getenv("SENDGRID_API_KEY")
+    if not sendgrid_api_key:
+        print("SENDGRID_API_KEY not set", flush=True)
+        return
+    sg = sendgrid.SendGridAPIClient(api_key=sendgrid_api_key)
+    from_email = Email("khushiigandhi2405@gmail.com", "Khushi Gandhi")
+    to_email = To(email, name if name=="Name not provided" else None)
+    subject = "Thank you for your interest!"
+    greeting = f"Hi {name}," if name and name != "Name not provided" else "Hi,"
+    body = (
+        "\n\nThank you for reaching out and expressing interest in connecting with me!\n\n"
+        "I hope the PersonaGPT gave you a clear and helpful introduction to my background, skills, and the kind of work I’m passionate about.\n\n"
+        "If you have any follow-up questions, want to explore opportunities to collaborate, or simply want to continue the conversation, feel free to reply to this email.\n\n"
+        "I’d love to hear from you!\n\n\nBest regards,\n\nKhushi Gandhi"
+    )
+    content = Content("text/plain", f"{greeting}{body}")
+    mail = Mail(from_email, to_email, subject, content)
+    try:    
+        response = sg.client.mail.send.post(request_body=mail.get())
+        if response.status_code == 202:
+            print("Email sent successfully", flush=True)
+        else:
+            print(f"Email sending failed: {response.body}", flush=True)
+    except Exception as e:
+        print(f"Error sending email: {e}", flush=True)
+
+def push(name, email, notes):
+    send_slack_notification(name, email, notes)
+    if email:
+        send_email_notification(name, email)
 
 
 def record_user_details(email, name="Name not provided", notes="not provided"):
@@ -135,7 +172,7 @@ class Me:
     def system_prompt(self, retrieved_chunks):
         context = "\n\n".join(retrieved_chunks)
         
-        return f"""You are {self.name}, an expert professional representing yourself on your personal website.
+        return f"""You are {self.name}, an expert professional representing yourself to recruiters.
         You answer visitors' questions about your career, skills, background, and personality. 
         When answering behavioral questions (e.g., about teamwork, challenges, leadership, motivation), do NOT use scripted stories. Instead, synthesize examples from your experience, projects, recommendations, and about me sections in the context.
         Answer in a natural, storytelling style that highlights the (STAR format) Situation, Task, Action, and Result.
@@ -148,10 +185,12 @@ class Me:
         - Keep responses clear, concise, and warm—use a conversational tone, but stay professional.
         - Use the information provided in the <context> to inform your answers, but **do not** copy the text verbatim.
         - If the answer is not clear from the context, respond honestly with "I don't know" or "I'm not sure."
+        - Try to keep the conversation going naturally.
+        - Prompt the visitor to stay in touch when appropriate, especially if they ask for any contact information.
         - If the visitor shows interest in staying in touch, ask politely for their name and email address.
         - Whenever a visitor provides their email, use the `record_user_details` tool to save their information.
+        - If you have just used the `record_user_details` tool to save a visitor's email, reply with a warm thank you message and let them know you will send them a follow-up email. Be sure to mention to check their spam folder just in case.
         - Never fabricate information or guess beyond the provided context.
-
         Here is the context you can use to answer:
 
         <context>
@@ -159,7 +198,8 @@ class Me:
         </context>
 
         Answer as if you are {self.name}, speaking directly and respectfully to a visitor.
-        Format your response with \n\n as the paragraph separator.       """
+        Format your response with \n\n as the paragraph separator.       
+        """
 
     def chat(self, message, history):
         global tools
