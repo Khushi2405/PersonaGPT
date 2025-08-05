@@ -8,7 +8,7 @@ import numpy as np
 from openai import OpenAI
 import gradio as gr
 import certifi
-import smtplib
+import smtplib, ssl
 from email.message import EmailMessage
 from supabase import create_client
 
@@ -52,8 +52,9 @@ def send_email_notification(name, email):
             "I’d love to hear from you!\n\n\nBest regards,\n\nKhushi Gandhi"
         )
         msg.set_content(content)
-
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+        context = ssl.create_default_context()
+        context.minimum_version = ssl.TLSVersion.TLSv1_2
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as smtp:
             smtp.login(gmail_user, gmail_password)
             smtp.send_message(msg)
 
