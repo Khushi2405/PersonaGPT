@@ -85,13 +85,19 @@ class Me:
     def get_intent_section(self, query):
         system = "Classify the user's intent into one of:\n" + "\n".join(self.sections) + "\n" + "behavioral" + "\n\n" + \
                   "Respond with the section name that best matches the user's intent, in lowercase."
-        response = self.openai.chat.completions.create(
-            model="gemini-2.0-flash",
-            messages=[
-                {"role": "system", "content": system},
-                {"role": "user", "content": query}
-            ]
-        )
+        try:
+            response = self.openai.chat.completions.create(
+                model="gemini-2.0-flash",
+                messages=[
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": query}
+                ]
+            )
+        except Exception as e:
+            if "429" in str(e):
+                return "⚠️ Rate limit exceeded. Please try again later."
+            else:
+                return f"❌ An unexpected error occurred: {str(e)}"
         return response.choices[0].message.content.strip().lower()
     
     def retrieve_relevant_chunks(self, query, top_k=5):
