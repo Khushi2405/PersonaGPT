@@ -15,45 +15,27 @@ from supabase import create_client
 load_dotenv(override=True)
 os.environ['SSL_CERT_FILE'] = certifi.where()
 
-
-def send_email_notification(name, email):
+def log_email_db(name : str, email : str):
     try:
-        gmail_user = os.getenv("GMAIL_USER")
-        gmail_password = os.getenv("GMAIL_APP_PASSWORD")
-        
-        if not gmail_user or not gmail_password:
-            print("GMAIL credentials not set in .env", flush=True)
-            return
-        
-        msg = EmailMessage()
-        msg["Subject"] = "Thank you for your interest!"
-        msg["From"] = f"Khushi Gandhi <{gmail_user}>"
-        msg["To"] = f"{name} <{email}>"
-
-        content = (f"Hi {name},"
-            "\n\nThank you for reaching out and expressing interest in connecting with me!\n\n"
-            "I hope the PersonaGPT gave you a clear and helpful introduction to my background, skills, and the kind of work I’m passionate about.\n\n"
-            "If you have any follow-up questions, want to explore opportunities to collaborate, or simply want to continue the conversation, feel free to reply to this email.\n\n"
-            "I’d love to hear from you!\n\n\nBest regards,\n\nKhushi Gandhi"
-        )
-        msg.set_content(content)
-        context = ssl.create_default_context()
-        context.minimum_version = ssl.TLSVersion.TLSv1_2
-        with smtplib.SMTP_SSL("smtp.gmail.com", 2525, context=context) as smtp:
-            smtp.login(gmail_user, gmail_password)
-            smtp.send_message(msg)
-
-        print("Email sent successfully", flush=True)
-
+        SUPABASE_URL = os.getenv("SUPABASE_URL")
+        SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+        supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+        data = {
+            "name": name,
+            "email": email
+        }
+    
+        response = supabase.table("emails_sent").insert(data).execute()
+        print(f"Supabase insert successful: {response} ", flush=True)
     except Exception as e:
-        print(f"Error sending email: {e}", flush=True)
+        print(f"Error inserting into Supabase: {e}", flush=True)
 
 
 def record_user_details(email, name):
     print(f"Recording user details: {name}, {email}", flush=True)
     if name is None or name.strip() == "":
         name = email.split('@')[0]
-    send_email_notification(name, email)
+    log_email_db(name, email)
     return {"recorded": "ok"}
 
 record_user_details_json = {
