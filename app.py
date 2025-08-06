@@ -8,8 +8,6 @@ import numpy as np
 from openai import OpenAI
 import gradio as gr
 import certifi
-import smtplib, ssl
-from email.message import EmailMessage
 from supabase import create_client
 
 load_dotenv(override=True)
