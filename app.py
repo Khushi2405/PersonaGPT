@@ -199,7 +199,8 @@ class Me:
                     done = True
 
             except Exception as e:
-                return f"❌ An unexpected error occurred: {str(e)}"
+                print(f"Error during chat completion: {e}", flush=True)
+                return "❌ Free tier limits reached. Please try again later."
         return response.choices[0].message.content
     
 
