@@ -15,21 +15,6 @@ from supabase import create_client
 load_dotenv(override=True)
 os.environ['SSL_CERT_FILE'] = certifi.where()
 
-def log_email_db(name : str, email : str):
-    try:
-        SUPABASE_URL = os.getenv("SUPABASE_URL")
-        SUPABASE_KEY = os.getenv("SUPABASE_KEY")
-        supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-        data = {
-            "name": name,
-            "email": email
-        }
-    
-        response = supabase.table("emails_sent").insert(data).execute()
-        print(f"Supabase insert successful: {response} ", flush=True)
-    except Exception as e:
-        print(f"Error inserting into Supabase: {e}", flush=True)
-
 
 def send_email_notification(name, email):
     try:
@@ -69,7 +54,6 @@ def record_user_details(email, name):
     if name is None or name.strip() == "":
         name = email.split('@')[0]
     send_email_notification(name, email)
-    log_email_db(name, email)
     return {"recorded": "ok"}
 
 record_user_details_json = {
