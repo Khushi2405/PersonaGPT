@@ -1,10 +1,16 @@
-# Khushi Gandhi's AI Career Assistant 🤖
+# PersonaGPT 🤖
 
-An intelligent conversational AI bot that represents my professional profile, built using advanced RAG (Retrieval-Augmented Generation) techniques and modern web technologies. The bot answers questions about my career, skills, experience, and personality while automatically collecting interested recruiters' contact information.
+An intelligent conversational AI bot that represents my professional profile, built using advanced RAG (Retrieval-Augmented Generation) techniques and modern web technologies. The bot answers questions about my career, skills, experience, and personality, while automatically collecting the contact information of interested recruiters.
+
+## 🌐 Live Demo
+
+See it live now!  [PersonaGPT](https://huggingface.co/spaces/Khushi2405/PersonaGPT)
+
+> **Note:** The live demo may have limited resources and is intended for demonstration purposes only.
+
 
 ## 🌟 Features
 
-### 🧠 Intelligent Conversation
 - **RAG-powered responses** using semantic search and embeddings
 - **Intent classification** to understand user queries and route to relevant information sections
 - **Behavioral question handling** with STAR format responses (Situation, Task, Action, Result)
@@ -37,11 +43,11 @@ An intelligent conversational AI bot that represents my professional profile, bu
 ```
 career-bot/
 ├── me/
-│   └── details.txt                 # Personal information and career data
+│   └── details.txt                # Personal information and career data
 ├── supabase/
 │   └── functions/
 │       └── send-email/
-│           └── index.ts           # Edge function for email automation
+│           └── index.ts          # Edge function for email automation
 ├── create_embeddings.py          # Script to generate embeddings from personal data
 ├── app.py                        # Main chat application
 ├── embeddings_by_section.pkl     # Generated embeddings file
