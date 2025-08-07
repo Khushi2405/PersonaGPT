@@ -92,7 +92,7 @@ class Me:
 
 
     def get_intent_section(self, query):
-        system = "Classify the user's intent into one of:\n" + "\n".join(self.sections) + "\n" + "behavioral" + "\n\n" + \
+        system = "Classify the user's intent into one of:\n" + "\n".join(self.sections) + "\n\n" + \
                   "Respond with the section name that best matches the user's intent, in lowercase."
         
         response = self.openai.chat.completions.create(
@@ -160,10 +160,14 @@ class Me:
             return self.example_answers[message.strip()]
         try:
             relevant_content = self.get_intent_section(message)
-        except Exception as e:
-            print(f"Error getting intent section: {e}", flush=True)
+        except ValueError as e:
+            print(f"Error from intent llm : {e}", flush=True)
             return "❌ I couldn't understand your question. Please try rephrasing it or ask something else."
-        
+        except Exception as e:
+            print(f"Unexpected error for intent llm: {e}", flush=True)
+            return "❌ Free Tier limit reached. Please try again in few minutes."
+        if relevant_content == []:
+            return "❌ I couldn't understand your question. Please try rephrasing it or ask something else."
         messages = [{"role": "system", "content": self.system_prompt(relevant_content)}] + history + [{"role": "user", "content": message}]
         done = False
         while not done:
@@ -185,7 +189,7 @@ class Me:
 
             except Exception as e:
                 print(f"Error during chat completion: {e}", flush=True)
-                return "❌ This conversation has reached the maximum length. Please start a new one."
+                return "❌ Free Tier limit reached. Either start a new conversation or try again in few minutes."
         return response.choices[0].message.content
     
 
