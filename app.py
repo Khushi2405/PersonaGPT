@@ -185,7 +185,7 @@ class Me:
 
             except Exception as e:
                 print(f"Error during chat completion: {e}", flush=True)
-                return "❌ Free tier limits reached. Please try again later."
+                return "❌ This conversation has reached the maximum length. Please start a new one."
         return response.choices[0].message.content
     
 
