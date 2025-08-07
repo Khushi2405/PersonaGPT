@@ -46,7 +46,7 @@ See it live now!  [PersonaGPT](https://huggingface.co/spaces/Khushi2405/PersonaG
 career-bot/
 ├── me/
 │   └── details.txt               # Personal information and career data
-│   └── example_json              # saved answers for example questions, faster response
+│   └── saved_answers.json        # saved answers for example questions, faster response
 ├── supabase/
 │   └── functions/
 │       └── send-email/
