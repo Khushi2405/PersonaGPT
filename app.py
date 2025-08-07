@@ -1,7 +1,7 @@
 import os
 import json
 from dotenv import load_dotenv
-from openai import OpenAI
+from openai import OpenAI, RateLimitError
 import gradio as gr
 import certifi
 from supabase import create_client
@@ -163,9 +163,13 @@ class Me:
         except ValueError as e:
             print(f"Error from intent llm : {e}", flush=True)
             return "❌ I couldn't understand your question. Please try rephrasing it or ask something else."
+        except RateLimitError as e:
+            print(f"Rate limit error from intent llm: {e}", flush=True)
+            return "❌ Free Tier limit reached. Either start a new conversation or try again later."
         except Exception as e:
-            print(f"Unexpected error for intent llm: {e}", flush=True)
-            return "❌ Free Tier limit reached. Please try again in few minutes."
+            print(f"Unexpected error from intent llm: {e}", flush=True)
+            return "❌ An unexpected error occurred. Please try again later."
+        
         if relevant_content == []:
             return "❌ I couldn't understand your question. Please try rephrasing it or ask something else."
         messages = [{"role": "system", "content": self.system_prompt(relevant_content)}] + history + [{"role": "user", "content": message}]
@@ -187,9 +191,12 @@ class Me:
                 else:
                     done = True
 
+            except RateLimitError as e:
+                print(f"Rate limit error from main llm: {e}", flush=True)
+                return "❌ Free Tier limit reached. Either start a new conversation or try again later."
             except Exception as e:
-                print(f"Error during chat completion: {e}", flush=True)
-                return "❌ Free Tier limit reached. Either start a new conversation or try again in few minutes."
+                print(f"Unexpected error from main llm: {e}", flush=True)
+                return "❌ An unexpected error occurred. Please try again later."
         return response.choices[0].message.content
     
 
