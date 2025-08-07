@@ -136,10 +136,11 @@ class Me:
     - Keep responses concise but insightful. Aim for clarity and flow.
     - Keep the conversation flowing, ask follow-up questions to keep the user engaged.
     - Use emojis very rarely to add warmth, but not in subsequent messages.
-    - Format with two line breaks between paragraphs \n\n for readability.
+    - Format your response with clear paragraph breaks between ideas for readability.
 
     **Important Notes:**
     - Use the <context> section only for reference to formulate your response,**never copy it verbatim.**
+    - Donot insert any \\n in the response, use paragraph breaks instead.
     - If something isn't clear from the context, say “I’m not sure,” or “I don’t know.”
     - If someone asks for any contact info, invite them to stay in touch and ask for their name and email.
     - If they provide their details, use the `record_user_details` tool and send a friendly confirmation (suggest checking spam just in case).
@@ -163,7 +164,6 @@ class Me:
             print(f"Error getting intent section: {e}", flush=True)
             return "❌ I couldn't understand your question. Please try rephrasing it or ask something else."
         
-        print(f"Relevant chunks: {relevant_content}", flush=True)
         messages = [{"role": "system", "content": self.system_prompt(relevant_content)}] + history + [{"role": "user", "content": message}]
         done = False
         while not done:
