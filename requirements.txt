@@ -1,7 +1,5 @@
 openai
-numpy
 dotenv
-sentence_transformers
 gradio
 certifi
 supabase

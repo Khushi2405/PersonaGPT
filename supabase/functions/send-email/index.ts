@@ -30,27 +30,17 @@ I’d love to hear from you!
 
 Best regards,
 your name
-  `;
-  // Create email content
-  const boundary = `----=_NextPart_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+`;
+  // Create simple text email
   const emailBody = [
     `From: your name ${FROM_EMAIL}`,
     `To: ${emailData.email}`,
     `Subject: ${subject}`,
     `MIME-Version: 1.0`,
-    `Content-Type: multipart/alternative; boundary="${boundary}"`,
-    ``,
-    `--${boundary}`,
     `Content-Type: text/plain; charset=UTF-8`,
     `Content-Transfer-Encoding: 7bit`,
     ``,
-    textContent,
-    ``,
-    `--${boundary}`,
-    `Content-Type: text/html; charset=UTF-8`,
-    `Content-Transfer-Encoding: 7bit`,
-    ``,
-    `--${boundary}--`
+    textContent
   ].join('\r\n');
   // Connect directly to Gmail SMTP with TLS (port 465)
   console.log('Connecting to Gmail SMTP with TLS...');
@@ -96,8 +86,7 @@ your name
     // Send email content
     console.log('Sending email content...');
     await conn.write(encoder.encode(emailBody + '\r\n.\r\n'));
-    await readResponse() // Read the response after sending data
-    ;
+    await readResponse(); // Read the response after sending data
     await sendCommand('QUIT');
     console.log('Email sent successfully via native SMTP');
   } catch (error) {

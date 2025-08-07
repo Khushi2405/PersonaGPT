@@ -1,6 +1,13 @@
+---
+title: PersonaGPT
+app_file: app.py
+sdk: gradio
+sdk_version: 5.39.0
+---
+
 # PersonaGPT 🤖
 
-An intelligent conversational AI bot that represents my professional profile, built using advanced RAG (Retrieval-Augmented Generation) techniques and modern web technologies. The bot answers questions about my career, skills, experience, and personality, while automatically collecting the contact information of interested recruiters.
+An intelligent conversational AI bot that represents my professional profile. The bot answers questions about my career, skills, experience, and personality, while automatically collecting the contact information of interested recruiters.
 
 ## 🌐 Live Demo
 
@@ -11,11 +18,9 @@ See it live now!  [PersonaGPT](https://huggingface.co/spaces/Khushi2405/PersonaG
 
 ## 🌟 Features
 
-- **RAG-powered responses** using semantic search and embeddings
 - **Intent classification** to understand user queries and route to relevant information sections
 - **Behavioral question handling** with STAR format responses (Situation, Task, Action, Result)
 - **Natural language processing** using Google's Gemini 2.0 Flash model
-- **Context-aware responses** that synthesize information rather than copy-pasting
 - **Smart contact collection** through natural conversation flow
 - **Automatic email follow-ups** sent via Supabase Edge Functions
 - **Clean Gradio interface** with example questions to guide users
@@ -24,10 +29,7 @@ See it live now!  [PersonaGPT](https://huggingface.co/spaces/Khushi2405/PersonaG
 
 ### Backend & AI
 - **Python 3.8+** - Main application language
-- **Sentence Transformers** - Text embeddings using `all-MiniLM-L6-v2`
 - **OpenAI API** - LLM integration via Google Gemini 2.0 Flash
-- **scikit-learn** - Cosine similarity for semantic search
-- **NumPy** - Numerical operations for embeddings
 
 ### Frontend & Interface
 - **Gradio** - Interactive chat interface
@@ -43,14 +45,13 @@ See it live now!  [PersonaGPT](https://huggingface.co/spaces/Khushi2405/PersonaG
 ```
 career-bot/
 ├── me/
-│   └── details.txt                # Personal information and career data
+│   └── details.txt               # Personal information and career data
+│   └── example_json              # saved answers for example questions, faster response
 ├── supabase/
 │   └── functions/
 │       └── send-email/
 │           └── index.ts          # Edge function for email automation
-├── create_embeddings.py          # Script to generate embeddings from personal data
 ├── app.py                        # Main chat application
-├── embeddings_by_section.pkl     # Generated embeddings file
 ├── .env                          # Environment variables (not in repo)
 ├── requirements.txt              # Python dependencies
 └── README.md                     # This file
@@ -219,15 +220,7 @@ curl -X POST \
   }'
 ```
 
-### Step 7: Generate Embeddings
-
-```bash
-python create_embeddings.py
-```
-
-This will create `embeddings_by_section.pkl` containing your personal data embeddings.
-
-### Step 8: Launch the Application
+### Step 9: Launch the Application
 
 ```bash
 python app.py
@@ -245,10 +238,6 @@ The application will start and provide a local URL (typically `http://127.0.0.1:
 - Modify response guidelines to adjust formality level
 - Update example questions in the Gradio interface
 
-**Embedding Model:**
-- Change the model in both `create_embeddings.py` and `app.py`
-- Recommended alternatives: `all-mpnet-base-v2`, `all-distilroberta-v1`
-
 **LLM Model:**
 - Switch from Gemini to OpenAI GPT by changing the API configuration
 - Adjust model parameters like temperature for different response styles
@@ -257,47 +246,20 @@ The application will start and provide a local URL (typically `http://127.0.0.1:
 - Modify the email content in `supabase/functions/send-email/index.ts`
 - Add HTML formatting or additional personalization
 
-## 🎯 Usage Examples
-
-### Behavioral Questions
-- "Tell me about a challenging situation you faced recently"
-- "How do you handle conflict in a team?"
-- "Describe a time when you had to learn something quickly"
-
-### Technical Questions
-- "What are your main technical skills?"
-- "Tell me about your recent projects"
-- "What's your experience with cloud technologies?"
-
-### Career Questions
-- "What motivates you in your career?"
-- "Tell me about your work experience"
-- "What kind of role are you looking for?"
-
-### Contact and Networking
-- "How can I get in touch with you?"
-- "Can I get your email for future opportunities?"
-- "I'd like to stay in touch"
-
 ## 🔍 How It Works
 
 ### 1. Intent Classification
 When a user asks a question, the system:
 - Uses the LLM to classify the intent into sections (Experience, Projects, Skills, etc.)
-- Falls back to embedding similarity if LLM classification fails
 - Routes to appropriate data sections for response generation
-
-### 2. Retrieval-Augmented Generation (RAG)
-- Converts user query to embeddings using Sentence Transformers
-- Finds most similar content sections using cosine similarity
 - Provides relevant context to the LLM for response generation
 
-### 3. Contact Collection
+### 2. Contact Collection
 - Detects when users express interest in staying in touch
 - Naturally prompts for name and email during conversation
 - Uses function calling to save contact information
 
-### 4. Automated Follow-up
+### 3. Automated Follow-up
 - Webhook triggers when new contact is saved
 - Edge function sends personalized thank-you email
 - References the bot conversation and encourages further communication
@@ -330,60 +292,14 @@ if __name__ == "__main__":
 
 ## 🛡️ Security Considerations
 
-### API Key Management
-- Never commit `.env` files to version control
-- Use platform-specific environment variable settings
-- Rotate API keys regularly
 
-### Database Security
+- Never commit `.env` files to version control
 - Enable Row Level Security on Supabase tables
 - Use service role keys only in secure server environments
-- Limit database permissions to minimum required
-
-### Email Security
 - Use Gmail App Passwords instead of regular passwords
 - Monitor email sending quotas and limits
 - Implement rate limiting for email sending
 
-## 🔧 Troubleshooting
-
-### Common Issues
-
-**"Module not found" errors:**
-```bash
-pip install -r requirements.txt --upgrade
-```
-
-**Embedding file not found:**
-```bash
-python create_embeddings.py
-```
-
-**Gmail authentication failed:**
-- Check if 2FA is enabled
-- Regenerate Gmail App Password
-- Verify password in .env file
-
-**Supabase connection issues:**
-- Verify project URL and keys
-- Check if database is paused (free tier)
-- Review Supabase logs for detailed errors
-
-**Edge function deployment fails:**
-```bash
-supabase functions deploy send-email --debug
-```
-
-### Performance Optimization
-
-**Faster embeddings:**
-- Use smaller embedding models for quicker responses
-- Cache embeddings instead of regenerating
-
-**Improved responses:**
-- Fine-tune the system prompt
-- Adjust similarity thresholds
-- Add more diverse training examples
 
 ## 🤝 Contributing
 

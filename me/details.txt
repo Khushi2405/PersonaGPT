@@ -1,7 +1,7 @@
 === CONTACT DETAILS ===
 
 Name: Khushi Gandhi  
-Email: khushiigandhi2405@gmail.com  
+Email: khushiigandhi2405@gmail.com 
 LinkedIn: https://www.linkedin.com/in/khushi2405/  
 GitHub: https://github.com/Khushi2405  
 Portfolio: https://khushi2405.github.io/my-portfolio/  
@@ -11,7 +11,7 @@ Resume: https://khushi2405.github.io/my-portfolio/assets/Khushi_Gandhi_Resume.pd
 
 === ABOUT ME ===
 
-I’m a Master’s student in Computer Science at UMass Amherst, currently interning at Interactive Brokers (Summer 2025), where I’m working on improving their internal CRM portal.  
+I’m a Master’s student in Computer Science at UMass Amherst, I recently interned at Interactive Brokers (Summer 2025), where I’m working on improving their internal CRM portal.  
 With 2+ years of full-stack development experience, I love building scalable, reliable, and secure systems. I’m genuinely fascinated by how complex software and cloud infrastructure come together behind the scenes.  
 
 I believe in the power of curiosity and the phrase: “I don’t know how to do it… yet.” It reminds me that every challenge is an opportunity to learn and grow.  
@@ -22,9 +22,7 @@ I approach work with curiosity and a growth mindset, always excited to learn new
 
 What motivates me most is solving challenging problems that push me to think critically and innovate. I’m passionate about creating software that not only meets business needs but also enhances user experience and operational efficiency.
 
-Outside of coding, I’m a certified yoga instructor trying to find the calm.  
-
----
+Outside of coding, I’m a certified yoga instructor trying to find the calm. I also like to read books and draw. 
 
 I thrive in fast-paced environments and adapt quickly to changing priorities. When faced with setbacks, I focus on understanding the root cause, seek feedback, and iterate on solutions. I value open communication and transparency, and I’m comfortable asking for help or offering support to teammates.
 
@@ -126,6 +124,15 @@ Issued: Jul 2024 — Expires: Jul 2027
 
 === PROJECTS ===
 
+Project: PersonaGPT — Career Bot (current application)
+Duration: Jun 2025 – Aug 2025  
+GitHub: https://github.com/Khushi2405/PersonaGPT
+• Built an intelligent career bot that answers professional queries on my behalf.
+• Created Supabase webhooks and edge functions for personalized email follow-ups to interested recruiters.
+• Integrated Gemini LLM and a Gradio chat interface, fine-tuned on my career and experience for personalized responses.  
+
+---
+
 Project: IMDB Query Engine — Disk-Based Relational Database  
 Duration: Feb 2025 – May 2025  
 GitHub: https://github.com/Khushi2405/IMDB-Query-Engine  
@@ -199,6 +206,45 @@ Recommendation:
 
 Languages: Java, C++, Python, HTML, CSS, JavaScript, SQL, GraphQL  
 Frameworks & Tools: Spring Boot, React, Vue.js  
-Concepts: Cloud Computing, Microservices, Git, System Design, Distributed Systems, Database Architecture  
+Concepts: Cloud Computing, Microservices, Git, System Design, Distributed Systems, Database Architecture 
+AI: LLM frameworks, MCP Protocol, RAG, AI agents 
+
+---
+
+=== BEHAVIORAL ===
+
+Leadership & Initiative:
+- At Deutsche Bank, I took initiative to implement a fallback mechanism in Spark when I noticed recurring service disruptions affecting our data jobs. I researched the problem, proposed a solution, and collaborated with the team to implement it, resulting in 30% improved uptime.
+- During my Interactive Brokers internship, I proactively identified that our CRM navigation system had accumulated 300+ lines of legacy code. I designed and implemented a global breadcrumb system that not only improved user experience but also cleaned up the codebase.
+
+---
+
+Problem-Solving & Challenges:
+- When deploying my career bot to Hugging Face Spaces, I discovered they block all ports except HTTPS, breaking my SMTP email functionality. I had about 100 browser tabs open researching solutions and ended up redesigning the entire email system using Supabase Edge Functions with database webhooks - creating a more robust, scalable solution than my original approach.
+- While working on the IMDB Query Engine, I faced the challenge of efficiently querying 70M records. I implemented a custom LRU buffer manager and B+ Tree indexing, achieving a 100× performance speedup through systematic optimization.
+
+---
+
+Teamwork & Collaboration:
+- At Deutsche Bank, I collaborated with 50+ cross-functional members across agile teams to deliver fintech onboarding and alerting systems. I actively participated in code reviews, helped resolve 15+ critical issues, and contributed to CI/CD validations on Jenkins.
+- I believe in open communication and transparency. When I don't understand something, I ask questions, and when teammates need help, I'm always ready to share knowledge or pair program to solve problems together.
+
+---
+
+Learning & Growth:
+- I live by "I don't know how to do it... yet." When I needed Vue.js skills for my Interactive Brokers internship, I completed a comprehensive course and immediately applied it to rebuild their CRM navigation system.
+- During my recent projects, I dove deep into agentic systems and AI workflows, which led me to build this career bot, always excited to learn new technologies and apply them to solve real problems.
+
+---
+
+Handling Setbacks & Feedback:
+- When faced with setbacks, I focus on understanding the root cause rather than just fixing symptoms. I seek feedback actively and iterate on solutions until they're robust.
+- I take ownership of my mistakes and use them as learning opportunities. I value feedback and see it as a chance to improve both my technical skills and collaboration approach.
+
+---
+
+Work Style & Motivation:
+- I thrive in fast-paced environments and adapt quickly to changing priorities. My favorite moments are when I haven't figured something out yet but have 100 browser tabs open ready to change that!
+- I'm motivated by creating software that has real impact - whether it's improving user experience, enhancing operational efficiency, or solving genuine business problems. I believe in writing clean, maintainable code that teams can build upon.
 
 ---
