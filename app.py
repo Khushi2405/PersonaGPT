@@ -207,7 +207,7 @@ if __name__ == "__main__":
     gr.ChatInterface(
         me.chat, 
         type="messages",
-        title="Khushi Gandhi's Personal Assistant",
+        title="Khushi Gandhi's AI Powered Resume Bot",
         description="<div style='text-align:center;'>Ask me anything about Khushi Gandhi's career, skills, and background. If you're interested in staying in touch, please provide your name and email address.</div>",
         examples=[
             *[ [question] for question in me.example_answers.keys() ]
