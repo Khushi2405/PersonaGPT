@@ -9,6 +9,8 @@ sdk_version: 5.39.0
 
 An intelligent conversational AI bot that represents my professional profile. The bot answers questions about my career, skills, experience, and personality, while automatically collecting the contact information of interested recruiters.
 
+This solution is fully customizable and can be adapted to represent any professional profile, making it useful for job seekers, freelancers, consultants, or even teams who want an engaging way to present their background and expertise.
+
 ## 🌐 Live Demo
 
 See it live now!  [PersonaGPT](https://huggingface.co/spaces/Khushi2405/PersonaGPT)
